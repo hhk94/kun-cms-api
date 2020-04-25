@@ -8,6 +8,7 @@
 namespace app\api\controller\v2\cms;
 use think\Request;
 use app\api\model\v2\cms\CmsArticleType as ArticleTypeModel;
+use app\api\model\v2\cms\CmsArticle as CmsArticleModel;
 use app\lib\enum\StateEnum;
 use app\api\validate\IDMustBePositiveInt;
 
@@ -63,6 +64,13 @@ class CmsArticleType {
 	  */
 	public function article_type_delete($id){
 		(new IDMustBePositiveInt())->goCheck();
+		$result = CmsArticleModel::where('article_type_id',$id)->select();
+		if(\count($result)>0){
+			return [
+				'state'=>StateEnum::fail,
+				'msg'=>'该分类下存在多个article未删除'
+			];
+		}
 		$delete = ArticleTypeModel::destroy($id);
 		if($delete){
 			return [

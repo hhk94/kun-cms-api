@@ -133,8 +133,8 @@ class CmsUser extends BaseController
 	
 	/*
 	*	@param：blog用户修改头像上传 - 返回图片id
-		@method:post
-		@url /api/v2/cms/add_user_avatar
+	*	@method:post
+	*	@url /api/v2/cms/add_user_avatar
 	*/
 	public function add_user_avatar(){
 		$file = request()->file('file');

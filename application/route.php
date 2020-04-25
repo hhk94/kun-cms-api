@@ -39,6 +39,11 @@ Route::group('api/:version/cms',function(){
 	Route::post('/banenr_type_add','api/:version.cms.CmsBannerType/banenr_type_add');//banner类别新增
 	Route::get('/banner_type_list_get','api/:version.cms.CmsBannerType/banner_type_list_get');//查看所有banner类别
 	Route::delete('/banner_type_delete','api/:version.cms.CmsBannerType/banner_type_delete');//文章类别删除
+	Route::post('/add_banner_img','api/:version.cms.CmsBannerItem/add_banner_img');//为banner新增图片返回id
+	Route::post('/banenr_add','api/:version.cms.CmsBannerItem/banenr_add');//banner新增
+	Route::get('/banner_list_get','api/:version.cms.CmsBannerItem/banner_list_get');//查看所有banner
+	Route::delete('/banner_item_delete','api/:version.cms.CmsBannerItem/banner_item_delete');//文章类别删除
+	
 });
 
 /**

@@ -7,6 +7,7 @@
 namespace app\api\controller\v2\cms;
 use think\Request;
 use app\api\model\v2\cms\CmsBannerType as CmsBannerTypeModel;
+use app\api\model\v2\cms\CmsBannerItem as CmsBannerItemModel;
 use app\lib\enum\StateEnum;
 use app\api\validate\IDMustBePositiveInt;
 class CmsBannerType {
@@ -60,7 +61,7 @@ class CmsBannerType {
 		
 	}
 	/**
-	  * 方法说明 - 文章类型列表查询
+	  * 方法说明 - banner类型列表查询
 	  * @url /api/v2/cms/banner_type_list_get
 	  * @param null
 	  * @method get
@@ -81,13 +82,20 @@ class CmsBannerType {
 		};
 	}
 	/**
-	  * 方法说明 - 文章类型列表删除
+	  * 方法说明 - banner类型列表删除
 	  * @url /api/v2/cms/banner_type_delete
 	  * @param {int} id
 	  * @method delete
 	  */
 	public function banner_type_delete($id){
 		(new IDMustBePositiveInt())->goCheck();
+		$result = CmsBannerItemModel::where('banner_type_id',$id)->select();
+		if(\count($result)>0){
+			return [
+				'state'=>StateEnum::fail,
+				'msg'=>'该分类下存在多个banner未删除'
+			];
+		}
 		$delete = CmsBannerTypeModel::destroy($id);
 		if($delete){
 			return [
