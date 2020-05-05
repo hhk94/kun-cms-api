@@ -55,7 +55,7 @@ class CmsArticle extends BaseModel {
 	  * @method get
 	  */
 	public function article_list_get($size,$page){
-		$article_type = self::with(['belongArticleType','belongUser'])->withCount( 'hasComments')->order('update_time','desc')
+		$article_type = self::with(['belongArticleType','belongUser'])->withCount( 'hasComments')->order('id','desc')
 		->paginate($size, true, ['page' => $page]);;
 		return $article_type;
 	}

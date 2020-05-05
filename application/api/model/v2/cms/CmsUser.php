@@ -54,7 +54,7 @@ class CmsUser extends BaseModel
     public function add_user($appid,$appsecret,$app_description,$scope,$scope_description,$nickname){
         $this->app_id = $appid;//账号
         $this->app_secret = $appsecret;//密码
-        $this->avatar_img_id = 1;//密码
+        $this->avatar_img_id = 1;//默认头像
         $this->app_description = $app_description;//用户注册的app备注
         $this->scope = $scope;//用户权限
         $this->scope_description = $scope_description;//权限描述
@@ -82,6 +82,14 @@ class CmsUser extends BaseModel
 		->hidden(['scope','scope_description','app_id','app_description']);
 		return $result;
 	}
-
+	
+	public function user_list_get($page,$size){
+		$result = self::withCount( 'hasComments')->with(['avatarImg'])->order('id','desc')->paginate($size, true, ['page' => $page]);
+		return $result;
+	}
+	public function user_get($id){
+		$result = self::with(['avatarImg'])->where('id',$id)->find();
+		return $result;
+	}
 
 }

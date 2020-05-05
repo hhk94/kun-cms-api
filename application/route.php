@@ -24,7 +24,9 @@ Route::group('api/:version/cms',function(){
     Route::post('/user_change','api/:version.cms.CmsUser/user_change');//修改用户
     Route::post('/add_user_avatar','api/:version.cms.CmsUser/add_user_avatar');//新增用户头像
     Route::post('/user_login','api/:version.cms.CmsUser/user_login');//用户登录
+	Route::get('/user_get','api/:version.cms.CmsUser/user_get');//查看单个user
 	Route::get('/user_list_get_by_count','api/:version.cms.CmsUser/user_list_get_by_count');//根据评论数量从高到底查看用户10条
+	Route::get('/user_list_get','api/:version.cms.CmsUser/user_list_get');//查看用户列表
     Route::post('/article_type_add','api/:version.cms.CmsArticleType/article_type_add');//文章类别新增
     Route::get('/article_type_list_get','api/:version.cms.CmsArticleType/article_type_list_get');//查看所有文章类别
     Route::delete('/article_type_delete','api/:version.cms.CmsArticleType/article_type_delete');//文章类别删除

@@ -63,7 +63,12 @@ class CmsArticle {
 	/**
 	  * 方法说明 - 文章添加
 	  * @url /api/v2/cms/article_add
-	  * @param 
+	  * @param article_id
+	  * @param article_title
+	  * @param article_type_id
+	  * @param article_content
+	  * @param article_html
+	  * @param article_input_id
 	  * @method post
 	  */
 	public function article_add(){

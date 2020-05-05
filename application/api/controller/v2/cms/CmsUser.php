@@ -228,6 +228,31 @@ class CmsUser extends BaseController
 		};
 	}
 	/**
+	  * 方法说明 - 获取列表
+	  * @url /api/v2/cms/user_list_get
+	  * @param {int} page
+	  * @param {int} size
+	  * @method get
+	  */
+	public function user_list_get($page=1,$size=10){
+		$usermodel = new UserModel();
+		$result = $usermodel->user_list_get($page,$size);
+		$total = UserModel::order('id desc')->count();
+		if($result){
+			return [
+				'state'=>StateEnum::success,
+				'data'=>$result,
+				'total'=>$total,
+				'current_page' => (int)$result->getCurrentPage(),
+			];
+		}else{
+			return [
+				'state'=>StateEnum::fail,
+				'msg'=>'查询失败'
+			];
+		};
+	}
+	/**
 	  * 方法说明 - 用户修改资料
 	  * @url /api/v2/cms/user_change
 	  * @param {int} id 数据库id
@@ -261,6 +286,7 @@ class CmsUser extends BaseController
 				    'msg' => 'id不匹配!'
 				];
 			}
+			$app = new AppToken();
 			if($new_psd){//修改密码 - 1.验证旧密码
 				$result = $this->password_check($appsecret,$check_result['app_secret']);//获取密码与数据库解密对比
 				if($result){
@@ -268,10 +294,12 @@ class CmsUser extends BaseController
 					$new_appsecret = $this->password_encryption($new_psd);//密码加密
 					$change_ok = $usermodel->change_user($id,$avatar_img_id,$new_appsecret,$nick_name);
 					if($change_ok){
+						$token = $app->get($appid, $new_appsecret);
 						return [
 							'state'=>StateEnum::success,
 						    'msg' => '修改成功!',
-							'change_psd'=>true
+							'change_psd'=>true,
+							'data' => $token
 						];
 					}else{
 						return [
@@ -288,10 +316,14 @@ class CmsUser extends BaseController
 			}
 			$change_ok = $usermodel->change_user($id,$avatar_img_id,$new_appsecret,$nick_name);
 			if($change_ok){
+				
+				$token = $app->get($appid, $new_appsecret);
+				
 				return [
 					'state'=>StateEnum::success,
 				    'msg' => '修改成功!',
-					'change_psd'=>false
+					'change_psd'=>false,
+					'data' => $token
 				];
 			}else{
 				return [
@@ -299,6 +331,28 @@ class CmsUser extends BaseController
 				    'msg' => '修改失败!'
 				];
 			}
+		}
+	}
+	/**
+	  * 方法说明 - 获取单个用户
+	  * @url /api/v2/cms/user_get
+	  * @param {int} id
+	  * @method get
+	  */
+	public function user_get($id){
+		$usermodel = new UserModel();
+		$result = $usermodel->user_get($id);
+		if($result){
+		    return [
+				'state'=>StateEnum::success,
+				'msg'=>'查询成功',
+				'data'=>$result
+			];
+		}else{
+		   return [
+		   	'state'=>StateEnum::fail,
+		   	'msg'=>'查询失败'
+		   ];
 		}
 	}
 } 
