@@ -29,10 +29,14 @@ Route::group('api/:version/cms',function(){
 	Route::get('/user_list_get','api/:version.cms.CmsUser/user_list_get');//查看用户列表
     Route::post('/article_type_add','api/:version.cms.CmsArticleType/article_type_add');//文章类别新增
     Route::get('/article_type_list_get','api/:version.cms.CmsArticleType/article_type_list_get');//查看所有文章类别
+    Route::get('/article_type_get','api/:version.cms.CmsArticleType/article_type_get');//查看单个文章类别
+    
+	
     Route::delete('/article_type_delete','api/:version.cms.CmsArticleType/article_type_delete');//文章类别删除
 	Route::post('/article_add_img','api/:version.cms.CmsArticle/article_add_img');//文章图片新增
     Route::post('/article_add','api/:version.cms.CmsArticle/article_add');//文章新增
     Route::get('/article_list_get','api/:version.cms.CmsArticle/article_list_get');//查看所有文章
+	Route::get('/article_list_get_by_type','api/:version.cms.CmsArticle/article_list_get_by_type');//通过分类获取文章列表
     Route::get('/article_list_get_by_count','api/:version.cms.CmsArticle/article_list_get_by_count');//根据评论数量从高到底查看文章10条
 	Route::delete('/article_delete','api/:version.cms.CmsArticle/article_delete');//文章删除
 	Route::get('/article_get','api/:version.cms.CmsArticle/article_get');//查看单篇文章
@@ -45,6 +49,9 @@ Route::group('api/:version/cms',function(){
 	Route::post('/banenr_add','api/:version.cms.CmsBannerItem/banenr_add');//banner新增
 	Route::get('/banner_list_get','api/:version.cms.CmsBannerItem/banner_list_get');//查看所有banner
 	Route::delete('/banner_item_delete','api/:version.cms.CmsBannerItem/banner_item_delete');//文章类别删除
+	Route::post('/router_add','api/:version.cms.CmsRouter/router_add');//路由新增
+	Route::get('/router_list','api/:version.cms.CmsRouter/router_list');//路由列表
+	
 	
 });
 

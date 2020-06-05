@@ -55,7 +55,7 @@ class CmsArticle extends BaseModel {
 	  * @method get
 	  */
 	public function article_list_get($size,$page){
-		$article_type = self::with(['belongArticleType','belongUser'])->withCount( 'hasComments')->order('id','desc')
+		$article_type = self::with(['belongArticleType','belongUser'])->withCount( 'hasComments')->order('update_time','desc')
 		->paginate($size, true, ['page' => $page]);;
 		return $article_type;
 	}
@@ -76,6 +76,12 @@ class CmsArticle extends BaseModel {
 	public function article_get($id){
 		$article = self::with(['belongArticleType','belongUser'])->find($id);
 		return $article;
+	}
+	
+	public function article_list_get_by_type($id,$size,$page){
+		$article_type = self::with(['belongArticleType','belongUser'])->withCount( 'hasComments')->where('article_type_id',$id)->order('id','esc')
+		->paginate($size, true, ['page' => $page]);;
+		return $article_type;
 	}
 }
 ?>

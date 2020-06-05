@@ -14,7 +14,7 @@ class CmsArticleType extends BaseModel {
 	protected $deleteTime = 'delete_time';
 	protected $hidden=['delete_time','update_time','create_time'];
 	protected $autoWriteTimestamp = true;
-	public function article_item(){
+	public function articleItem(){
 	    return $this->hasMany('CmsArticle','article_type_id','id');
 	}
 	
@@ -32,6 +32,11 @@ class CmsArticleType extends BaseModel {
 		$article_type = self::order('id')
 		->select();
 		return $article_type;
+	}
+	
+	public function article_type_get($id){
+		$article = self::find($id);
+		return $article;
 	}
 }
 ?>

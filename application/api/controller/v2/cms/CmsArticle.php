@@ -208,6 +208,33 @@ class CmsArticle {
 			];
 		};
 	}
+	
+	/**
+	  * 方法说明 - 通过类别获取文章列表
+	  * @url /api/v2/cms/article_list_get_by_type
+	  * @param {int} id
+	  * @method get
+	  */
+	public function article_list_get_by_type($id,$size=10,$page=1){
+		(new IDMustBePositiveInt())->goCheck();
+		$type = new CmsArticleModel();
+		$result = $type->article_list_get_by_type($id,$size,$page);
+		$total = CmsArticleModel::order('id desc')->where('article_type_id',$id)->count();
+		if($result){
+			return [
+				'state'=>StateEnum::success,
+				'total'=>$total,
+				'current_page' => (int)$result->getCurrentPage(),
+				'data'=>$result,
+			];
+		}else{
+			return [
+				'state'=>StateEnum::fail,
+				'msg'=>'查询失败',
+				'data'=>$result
+			];
+		}
+	}
 }
 
 

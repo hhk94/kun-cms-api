@@ -85,6 +85,12 @@ class CmsUser extends BaseController
             $input=input('post.');
             $appid = $input['appid'];//账号
             $appsecret = $input['appsecret'];//密码
+			if($appsecret==''){
+				return [
+					'state'=>StateEnum::anoter_fail,
+					'msg'=>'失败,密码不能为空'
+				];
+			}
             $nickname = '用户'.getRandChar(16);//用户昵称
             $scope = ScopeEnum::User; //默认都是普通用户	
             $app_description = 'BLOG';//默认注册的是微博
@@ -114,6 +120,10 @@ class CmsUser extends BaseController
                 return [
 					'state'=>StateEnum::success,
 					'msg'=>'添加成功',
+					'result'=>[
+						'appid'=>$appid,
+						'appsecret'=>$input['appsecret']
+					],
 					'uid'=>$result
 				];
             }else{
@@ -174,6 +184,7 @@ class CmsUser extends BaseController
 	  * @method post
 	  */
 	public function user_login (){
+		
 		if(request()->isPost()){
 			$input=input('post.');
 			$appid = $input['appid'];//账号

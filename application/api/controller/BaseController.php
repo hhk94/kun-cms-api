@@ -27,12 +27,12 @@ class BaseController extends Controller
     // }
 	//密码加密
     protected function password_encryption($string){
-		return \password_hash($string,PASSWORD_DEFAULT);
+		return password_hash($string,PASSWORD_DEFAULT);
 	}
 
    //密码解密
    protected function password_check($string,$encryption){
-   	return \password_verify($string,$encryption);
+   	return password_verify($string,$encryption);
    }
 
 

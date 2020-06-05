@@ -84,5 +84,28 @@ class CmsArticleType {
 			];
 		};
 	}
+	/**
+	  * 方法说明 - 单篇文章获取
+	  * @url /api/v2/cms/article_type_get
+	  * @param {int} id
+	  * @method get
+	  */
+	public function article_type_get($id){
+		(new IDMustBePositiveInt())->goCheck();
+		$type = new ArticleTypeModel();
+		$result = $type->article_type_get($id);
+		if($result){
+			return [
+				'state'=>StateEnum::success,
+				'msg'=>'查询成功',
+				'data'=>$result
+			];
+		}else{
+			return [
+				'state'=>StateEnum::fail,
+				'msg'=>'删除失败'
+			];
+		};
+	}
 }
 ?>
