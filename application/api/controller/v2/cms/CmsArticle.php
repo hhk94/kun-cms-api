@@ -77,6 +77,7 @@ class CmsArticle {
 			$article_id = $input['article_id'];//文章id
 			$article_title = $input['article_title'];//文章标题
 			$article_type_id = $input['article_type_id'];//文章类别
+			$article_belong_id = $input['article_belong_id'];//文章归属
 			$article_content = $input['article_content'];//文章内容
 			$article_html = $input['article_html'];//文章内容
 			$article_input_id = $input['article_input_id'];//作者id
@@ -100,7 +101,7 @@ class CmsArticle {
 				
 			}else{
 				//第一次上传文章
-				$result = $article->add_article($article_title,$article_type_id,$article_content,$article_html,$article_input_id);
+				$result = $article->add_article($article_title,$article_type_id,$article_belong_id,$article_content,$article_html,$article_input_id);
 				if($result){
 					return [
 					    "state"=>StateEnum::success,
@@ -125,14 +126,18 @@ class CmsArticle {
 	  * @param {int} $page 页码
 	  * @method get
 	  */
-	public function article_list_get($size=10,$page=1){
+	public function article_list_get($size=10,$page=1,$article_belong_id){
 		$type = new CmsArticleModel();
-		$result = $type->article_list_get($size,$page);
-		$total = CmsArticleModel::order('id desc')->count();
+		$result = $type->article_list_get($size,$page,$article_belong_id);
+		if($article_belong_id!=null){
+			$total = CmsArticleModel::order('id desc')->where('article_belong_id',$article_belong_id)->count();
+		}else{
+			$total = CmsArticleModel::order('id desc')->count();
+		}
 		if($result){
 			return [
 				'state'=>StateEnum::success,
-				'data'=>$result,
+				'data'=>$result->hidden(['article_content','article_html','article_input_id','article_type_id']),
 				'total'=>$total,
 				'current_page' => (int)$result->getCurrentPage(),
 			];
@@ -175,6 +180,7 @@ class CmsArticle {
 		$type = new CmsArticleModel();
 		$result = $type->article_get($id);
 		if($result){
+			$type->save(['visit_count'=>$result->visit_count+1],['id' => $id]);
 			return [
 				'state'=>StateEnum::success,
 				'msg'=>'查询成功',
@@ -183,7 +189,7 @@ class CmsArticle {
 		}else{
 			return [
 				'state'=>StateEnum::fail,
-				'msg'=>'删除失败'
+				'msg'=>'查询失败'
 			];
 		};
 	}
@@ -234,6 +240,20 @@ class CmsArticle {
 				'data'=>$result
 			];
 		}
+	}
+	/**
+	  * 方法说明 - 获取所有文章总点击量
+	  * @url /api/v2/cms/get_visit_count
+	  * @method get
+	  */
+	public function get_visit_count(){
+		$type = new CmsArticleModel();
+		$sum = $type->sum('visit_count');
+		return [
+				'state'=>StateEnum::success,
+				'data'=>$sum,
+				'hit'=>'总点击量'
+			];;
 	}
 }
 

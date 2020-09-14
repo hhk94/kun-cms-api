@@ -27,12 +27,20 @@ Route::group('api/:version/cms',function(){
 	Route::get('/user_get','api/:version.cms.CmsUser/user_get');//查看单个user
 	Route::get('/user_list_get_by_count','api/:version.cms.CmsUser/user_list_get_by_count');//根据评论数量从高到底查看用户10条
 	Route::get('/user_list_get','api/:version.cms.CmsUser/user_list_get');//查看用户列表
+	
     Route::post('/article_type_add','api/:version.cms.CmsArticleType/article_type_add');//文章类别新增
     Route::get('/article_type_list_get','api/:version.cms.CmsArticleType/article_type_list_get');//查看所有文章类别
     Route::get('/article_type_get','api/:version.cms.CmsArticleType/article_type_get');//查看单个文章类别
-    
-	
     Route::delete('/article_type_delete','api/:version.cms.CmsArticleType/article_type_delete');//文章类别删除
+	
+	Route::post('/article_belong_add','api/:version.cms.CmsArticleBelong/article_belong_add');//文章归属新增
+	Route::get('/article_belong_list_get','api/:version.cms.CmsArticleBelong/article_belong_list_get');//查看所有文章归属
+	Route::delete('/article_belong_delete','api/:version.cms.CmsArticleBelong/article_belong_delete');//文章归属删除
+	Route::get('/article_belong_get','api/:version.cms.CmsArticleBelong/article_belong_get');//获取某个belong——id
+	
+	
+	Route::get('/get_visit_count','api/:version.cms.CmsArticle/get_visit_count');//获取所有文章总点击数
+    
 	Route::post('/article_add_img','api/:version.cms.CmsArticle/article_add_img');//文章图片新增
     Route::post('/article_add','api/:version.cms.CmsArticle/article_add');//文章新增
     Route::get('/article_list_get','api/:version.cms.CmsArticle/article_list_get');//查看所有文章
